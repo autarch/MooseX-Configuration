@@ -40,12 +40,6 @@ around _process_options => sub {
     $options->{config_section} = delete $options->{section}
         if exists $options->{section};
     $options->{config_key} = delete $options->{key};
-
-    $options->{reader} ||= $name;
-    $options->{writer} ||= '_set_' . $name
-        unless exists $options->{writer};
-    $options->{clearer} ||= '_clearer_' . $name
-        unless exists $options->{clearer};
 };
 
 sub _process_default_or_builder_option {
