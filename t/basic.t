@@ -3,6 +3,7 @@ use warnings;
 use autodie;
 
 use Test::More 0.88;
+use Test::Fatal;
 
 use File::Temp qw( tempdir );
 use Path::Class qw( dir file );
@@ -43,10 +44,18 @@ use Path::Class qw( dir file );
     );
 }
 
-ok(
-    Conf->new( root_key_a => 'x' ),
-    'can create a Conf object without reading a config file'
-);
+{
+    ok(
+        Conf->new( root_key_a => 'x' ),
+        'can create a Conf object without reading a config file'
+    );
+
+    like(
+        exception { Conf->new( root_key_a => 'x' )->config_file() },
+        qr/No config file was defined for this object/,
+        'config file builder method dies by default'
+    );
+}
 
 my $tempdir = dir( tempdir( CLEANUP => 1 ) );
 
@@ -110,6 +119,5 @@ EOF
         'write_file generates expected file'
     );
 }
-
 
 done_testing();

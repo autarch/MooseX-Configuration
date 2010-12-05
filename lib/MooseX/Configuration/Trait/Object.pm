@@ -26,7 +26,9 @@ has _raw_config => (
     builder => '_build_raw_config',
 );
 
-sub _build_config_file { }
+sub _build_config_file {
+    die 'No config file was defined for this object';
+}
 
 sub _build_raw_config {
     my $self = shift;
