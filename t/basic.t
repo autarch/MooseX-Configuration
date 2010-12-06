@@ -92,7 +92,7 @@ EOF
     my $buffer = q{};
     open $fh, '>', \$buffer;
 
-    $conf->write_config(
+    $conf->write_config_file(
         generated_by => 'Test code',
         file         => $fh,
     );

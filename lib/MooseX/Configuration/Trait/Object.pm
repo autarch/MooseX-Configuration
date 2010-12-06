@@ -7,16 +7,26 @@ use namespace::autoclean;
 
 use Config::INI::Reader;
 use List::AllUtils qw( uniq );
+use MooseX::Types -declare => ['MaybeFile'];
 use MooseX::Types::Moose qw( HashRef Maybe Str );
 use MooseX::Types::Path::Class qw( File );
+use Path::Class::File;
 use Text::Autoformat qw( autoformat );
+
+subtype MaybeFile,
+    as Maybe[File];
+
+coerce MaybeFile,
+    from Str,
+    via { Path::Class::File->new($_) };
 
 has config_file => (
     is      => 'ro',
-    isa     => File,
+    isa     => MaybeFile,
     coerce  => 1,
     lazy    => 1,
     builder => '_build_config_file',
+    clearer => '_clear_config_file',
 );
 
 has _raw_config => (
@@ -60,7 +70,7 @@ sub _from_config {
     return $hash;
 }
 
-sub write_config {
+sub write_config_file {
     my $self = shift;
     my %p    = @_;
 

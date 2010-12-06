@@ -71,7 +71,7 @@ sub _process_default_or_builder_option {
         }
     }
     elsif ( $options->{builder} ) {
-        my $builder = $options->{builder};
+        my $builder = delete $options->{builder};
 
         $options->{default} = sub {
             my $val = $_[0]->_from_config( $section, $key );
