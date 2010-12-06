@@ -72,6 +72,11 @@ sub write_config_file {
     my $self = shift;
     my %p    = @_;
 
+    my $file = exists $p{file} ? $p{file} : $self->config_file();
+
+    die 'Cannot write a configuration file without a config file'
+        unless defined $file;
+
     my @sections;
     my %attrs_by_section;
 
@@ -135,8 +140,6 @@ sub write_config_file {
             $content .= "\n";
         }
     }
-
-    my $file = exists $p{file} ? $p{file} : $self->config_file();
 
     my $fh;
 
