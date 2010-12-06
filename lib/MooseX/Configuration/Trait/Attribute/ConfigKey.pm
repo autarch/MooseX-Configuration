@@ -51,7 +51,7 @@ sub _process_default_or_builder_option {
     my $section = defined $options->{section} ? $options->{section} : q{_};
     my $key = $options->{key};
 
-    if ( $options->{default} ) {
+    if ( exists $options->{default} ) {
         my $def = $options->{default};
 
         if ( ref $options->{default} ) {
