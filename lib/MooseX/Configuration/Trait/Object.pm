@@ -117,10 +117,13 @@ sub write_config_file {
 
             $content .= $doc if defined $doc;
 
-            my $value;
-            if ( my $reader = $attr->get_read_method() ) {
-                $value = $self->$reader();
-            }
+            my $value
+                = exists $p{values}{ $attr->name() }
+                ? $p{values}{ $attr->name() }
+                : $self->_from_config(
+                $attr->config_section(),
+                $attr->config_key(),
+                );
 
             my $key = $attr->config_key();
 
